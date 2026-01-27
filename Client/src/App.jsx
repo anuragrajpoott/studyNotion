@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      dnkoafnod
+      <div className="bg-richblue-300">kdkoansd</div>
     </>
   )
 }
