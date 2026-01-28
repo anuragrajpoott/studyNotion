@@ -170,11 +170,15 @@ exports.login = async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      { id: user._id, role: user.accountType },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
+    jwt.sign(
+  {
+    id: user._id,
+    email: user.email,
+    accountType: user.accountType,
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: "24h" }
+);
 
     user.password = undefined;
 
