@@ -4,15 +4,15 @@ const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 
-const { connect } = require("./config/database");
-const { cloudinaryConnect } = require("./utils/cloudinary");
+const { connect } = require("./src/config/database");
+const { cloudinaryConnect } = require("./src/config/cloudinary");
 
 // Routes
-const authRoutes = require("./routes/auth.routes");
-const profileRoutes = require("./routes/profile.routes");
-const courseRoutes = require("./routes/course.routes");
-const categoryRoutes = require("./routes/category.routes");
-const sectionRoutes = require("./routes/section.routes");
+const authRoutes = require("./src/routes/authRoutes");
+const profileRoutes = require("./src/routes/profileRoutes");
+const courseRoutes = require("./src/routes/courseRoutes");
+const categoryRoutes = require("./src/routes/categoryRoutes");
+const sectionRoutes = require("./src/routes/sectionRoutes");
 
 dotenv.config();
 

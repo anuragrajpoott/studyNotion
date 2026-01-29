@@ -8,9 +8,9 @@ const {
   changePassword,
   resetPasswordToken,
   resetPassword,
-} = require("../controllers/Auth");
+} = require("../controllers/authController");
 
-const { auth } = require("../middlewares/auth");
+const { auth } = require("../middleware/auth");
 
 // signup flow
 router.post("/send-otp", sendotp);

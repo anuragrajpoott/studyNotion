@@ -1,10 +1,8 @@
 const Profile = require("../models/Profile");
-const CourseProgress = require("../models/CourseProgress");
 const Course = require("../models/Course");
 const User = require("../models/User");
 const mongoose = require("mongoose");
-const { uploadImageToCloudinary } = require("../utils/imageUploader");
-const { convertSecondsToDuration } = require("../utils/secToDuration");
+const { uploadImageToCloudinary } = require("../config/cloudinary");
 
 /* =========================================================
    UPDATE PROFILE
@@ -207,32 +205,6 @@ exports.getEnrolledCourses = async (req, res) => {
     }
 
     userDetails = userDetails.toObject();
-
-    for (const course of userDetails.courses) {
-      let totalDurationInSeconds = 0;
-      let totalSubSections = 0;
-
-      course.courseContent.forEach((section) => {
-        section.subSection.forEach((sub) => {
-          totalDurationInSeconds += sub.timeDuration;
-          totalSubSections += 1;
-        });
-      });
-
-      course.totalDuration = convertSecondsToDuration(totalDurationInSeconds);
-
-      const progress = await CourseProgress.findOne({
-        course: course._id,
-        user: userId,
-      });
-
-      const completed = progress?.completedVideos.length || 0;
-
-      course.progressPercentage =
-        totalSubSections === 0
-          ? 100
-          : Math.round((completed / totalSubSections) * 10000) / 100;
-    }
 
     return res.status(200).json({
       success: true,

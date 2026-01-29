@@ -1,7 +1,7 @@
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const Course = require("../models/Course");
-const { uploadImageToCloudinary } = require("../utils/imageUploader");
+const { uploadImageToCloudinary } = require("../config/cloudinary");
 
 /* =========================================================
    SECTION CONTROLLERS

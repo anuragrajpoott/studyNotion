@@ -3,10 +3,8 @@ const Category = require("../models/Category");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const User = require("../models/User");
-const CourseProgress = require("../models/CourseProgress");
+const { uploadImageToCloudinary } = require("../config/cloudinary");
 
-const { uploadImageToCloudinary } = require("../utils/imageUploader");
-const { convertSecondsToDuration } = require("../utils/secToDuration");
 
 /* =========================================================
    CREATE COURSE
@@ -211,18 +209,9 @@ exports.getCourseDetails = async (req, res) => {
       });
     }
 
-    let totalSeconds = 0;
-    courseDetails.courseContent.forEach((section) => {
-      section.subSection.forEach((sub) => {
-        totalSeconds += sub.timeDuration;
-      });
-    });
-
-    const totalDuration = convertSecondsToDuration(totalSeconds);
-
     return res.status(200).json({
       success: true,
-      data: { courseDetails, totalDuration },
+      data: { courseDetails },
     });
   } catch (error) {
     return res.status(500).json({
@@ -259,24 +248,10 @@ exports.getFullCourseDetails = async (req, res) => {
       });
     }
 
-    const progress = await CourseProgress.findOne({
-      course: courseId,
-      user: userId,
-    });
-
-    let totalSeconds = 0;
-    courseDetails.courseContent.forEach((section) => {
-      section.subSection.forEach((sub) => {
-        totalSeconds += sub.timeDuration;
-      });
-    });
-
     return res.status(200).json({
       success: true,
       data: {
-        courseDetails,
-        totalDuration: convertSecondsToDuration(totalSeconds),
-        completedVideos: progress?.completedVideos || [],
+        courseDetails
       },
     });
   } catch (error) {

@@ -8,8 +8,8 @@ const User = require("../models/User");
 const Profile = require("../models/Profile");
 const OTP = require("../models/Otp");
 
-const mailSender = require("../utils/mailSender");
-const { passwordUpdated } = require("../mail/templates/passwordUpdate");
+const mailSender = require("../config/mailSender");
+const { passwordUpdated } = require("../mailTemplates/passwordUpdateEmail");
 
 /* =========================================================
    SEND OTP (Signup)

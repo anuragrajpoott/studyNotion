@@ -9,9 +9,9 @@ const {
   getFullCourseDetails,
   getInstructorCourses,
   deleteCourse,
-} = require("../controllers/Course");
+} = require("../controllers/courseController");
 
-const { auth, isInstructor } = require("../middlewares/auth");
+const { auth, isInstructor } = require("../middleware/auth");
 
 // instructor
 router.post("/create", auth, isInstructor, createCourse);

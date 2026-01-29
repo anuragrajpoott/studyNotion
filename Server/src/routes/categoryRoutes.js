@@ -5,9 +5,9 @@ const {
   createCategory,
   showAllCategories,
   categoryPageDetails,
-} = require("../controllers/Category");
+} = require("../controllers/categoryController");
 
-const { auth, isAdmin } = require("../middlewares/auth");
+const { auth, isAdmin } = require("../middleware/auth");
 
 // admin only
 router.post("/create", auth, isAdmin, createCategory);

@@ -8,9 +8,9 @@ const {
   updateDisplayPicture,
   getEnrolledCourses,
   instructorDashboard,
-} = require("../controllers/Profile");
+} = require("../controllers/profileController");
 
-const { auth, isInstructor } = require("../middlewares/auth");
+const { auth, isInstructor } = require("../middleware/auth");
 
 router.put("/update-profile", auth, updateProfile);
 router.delete("/delete-account", auth, deleteAccount);

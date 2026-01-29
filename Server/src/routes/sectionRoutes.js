@@ -8,9 +8,9 @@ const {
   createSubSection,
   updateSubSection,
   deleteSubSection,
-} = require("../controllers/Section");
+} = require("../controllers/sectionController");
 
-const { auth, isInstructor } = require("../middlewares/auth");
+const { auth, isInstructor } = require("../middleware/auth");
 
 // SECTION
 router.post("/create-section", auth, isInstructor, createSection);
