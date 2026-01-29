@@ -1,0 +1,51 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+  signupData: null, // for OTP flow only
+};
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setAuthLoading(state, action) {
+      state.loading = action.payload;
+    },
+
+    setUser(state, action) {
+      state.user = action.payload;
+      state.error = null;
+    },
+
+    clearUser(state) {
+      state.user = null;
+    },
+
+    setAuthError(state, action) {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
+    setSignupData(state, action) {
+      state.signupData = action.payload;
+    },
+
+    clearSignupData(state) {
+      state.signupData = null;
+    },
+  },
+});
+
+export const {
+  setAuthLoading,
+  setUser,
+  clearUser,
+  setAuthError,
+  setSignupData,
+  clearSignupData,
+} = authSlice.actions;
+
+export default authSlice.reducer;
