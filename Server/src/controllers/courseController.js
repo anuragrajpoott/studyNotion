@@ -74,6 +74,7 @@ exports.createCourse = async (req, res) => {
       message: "Course created successfully",
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Failed to create course",
@@ -85,7 +86,11 @@ exports.createCourse = async (req, res) => {
 
 exports.editCourse = async (req, res) => {
   try {
-    const { courseId } = req.body;
+    const { courseId } = req.params;
+
+    if(!courseId) {
+      return res.status(400).json({ success: false, message: "Course ID is required" });
+    }
 
     const course = await Course.findById(courseId);
     if (!course) {
@@ -127,7 +132,11 @@ exports.editCourse = async (req, res) => {
 
 exports.getCourseDetails = async (req, res) => {
   try {
-    const { courseId } = req.body;
+    const { courseId } = req.params;
+
+    if(!courseId) {
+      return res.status(400).json({ success: false, message: "Course ID is required" });
+    }
 
     const course = await Course.findById(courseId)
       .populate("instructor", "firstName lastName")
@@ -174,6 +183,10 @@ exports.getInstructorCourses = async (req, res) => {
   try {
     const instructorId = req.user.id;
 
+    if (!instructorId) {
+      return res.status(400).json({ success: false, message: "Instructor ID is required" });
+    }
+
     const courses = await Course.find({ instructor: instructorId }).sort({
       createdAt: -1,
     });
@@ -194,6 +207,10 @@ exports.getInstructorCourses = async (req, res) => {
 exports.deleteCourse = async (req, res) => {
   try {
     const { courseId } = req.body;
+
+    if (!courseId) {
+      return res.status(400).json({ success: false, message: "Course ID is required" });
+    }
 
     const course = await Course.findById(courseId);
     if (!course) {

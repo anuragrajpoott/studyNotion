@@ -61,7 +61,7 @@ exports.showAllCategories = async (req, res) => {
 ========================================================= */
 exports.categoryPageDetails = async (req, res) => {
   try {
-    const { categoryId } = req.body;
+    const { categoryId } = req.params;
 
     if (!categoryId) {
       return res.status(400).json({

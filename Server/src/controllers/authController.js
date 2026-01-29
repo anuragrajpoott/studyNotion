@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
+const emailVerificationTemplate = require("../mailTemplates/emailVerificationEmail");
 
 const User = require("../models/User");
 const Profile = require("../models/Profile");
@@ -33,11 +34,6 @@ exports.sendOtp = async (req, res) => {
       });
     }
 
-    // Create temporary user for signup OTP
-    if (!user) {
-      user = await User.create({ email });
-    }
-
     const otp = otpGenerator.generate(6, {
       digits: true,
       lowerCaseAlphabets: false,
@@ -48,7 +44,7 @@ exports.sendOtp = async (req, res) => {
     const otpHash = await bcrypt.hash(otp, 10);
 
     await OTP.create({
-      user: user._id,
+      email,
       otpHash,
       expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 min
     });
@@ -108,19 +104,11 @@ exports.signup = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: "OTP not requested",
-      });
-    }
-
     const otpRecord = await OTP.findOne({
-      user: user._id,
+      email: email,
       isUsed: false,
       expiresAt: { $gt: new Date() },
-    }).sort({ createdAt: -1 });
+    }).select("+otpHash").sort({ createdAt: -1 });
 
     if (!otpRecord) {
       return res.status(400).json({
@@ -143,17 +131,38 @@ exports.signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const profile = await Profile.create({});
 
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.password = hashedPassword;
-    user.accountType = accountType || "Student";
-    user.profile = profile._id;
+     const newUser = await User.create({
+  firstName,
+  lastName,
+  email,
+  password: hashedPassword,
+  accountType: accountType || "Student",
+  profile: profile._id,
+});
 
-    await user.save();
+ const token = jwt.sign(
+      {
+        id: newUser._id,
+        accountType: newUser.accountType,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    newUser.password = undefined;
+
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
 
     return res.status(201).json({
       success: true,
       message: "Signup successful",
+      newUser,
+      token,
     });
   } catch (error) {
     return res.status(500).json({
@@ -235,6 +244,13 @@ exports.login = async (req, res) => {
 exports.changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Old and new passwords are required",
+      });
+    }
 
     const user = await User.findById(req.user.id).select("+password");
     if (!user) {

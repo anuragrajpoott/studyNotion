@@ -15,7 +15,7 @@ const { auth, isInstructor } = require("../middleware/auth");
 router.post("/", auth, isInstructor, createCourse);
 router.put("/:courseId", auth, isInstructor, editCourse);
 router.delete("/:courseId", auth, isInstructor, deleteCourse);
-router.get("/instructor/me", auth, isInstructor, getInstructorCourses);
+router.get("/instructor", auth, isInstructor, getInstructorCourses);
 
 // public
 router.get("/:courseId", getCourseDetails);

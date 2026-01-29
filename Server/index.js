@@ -58,7 +58,7 @@ cloudinaryConnect();
    API ROUTES (DOMAIN-BASED)
 ========================================================= */
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/users", profileRoutes);
+app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/courses", courseRoutes);
 app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/enrollments", enrollmentRoutes);

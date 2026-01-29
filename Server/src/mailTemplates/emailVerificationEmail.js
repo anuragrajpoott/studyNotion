@@ -1,4 +1,4 @@
-const otpTemplate = (otp) => {
+const emailVerificationTemplate = (otp) => {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,4 +112,4 @@ const otpTemplate = (otp) => {
 </html>`;
 };
 
-module.exports = otpTemplate;
+module.exports = emailVerificationTemplate;

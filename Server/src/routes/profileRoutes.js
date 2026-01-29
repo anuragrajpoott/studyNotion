@@ -11,7 +11,7 @@ const {
 const { auth } = require("../middleware/auth");
 
 router.get("/me", auth, getLoggedInUser);
-router.put("/me/profile", auth, updateProfile);
+router.put("/me", auth, updateProfile);
 router.put("/me/profile-image", auth, updateDisplayPicture);
 router.delete("/me", auth, deleteAccount);
 
