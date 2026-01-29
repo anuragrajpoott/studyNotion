@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
-import { apiConnector } from "../apiConnector";
-import { authEndpoints } from "../endpoints";
+import { apiConnector } from "../../utils/apiConnector";
+import { authEndpoints } from "../apis";
 import {
   setAuthLoading,
   setUser,
