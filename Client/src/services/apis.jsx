@@ -18,22 +18,21 @@ export const authEndpoints = {
 // PROFILE
 // ===============================
 export const profileEndpoints = {
-  GET_PROFILE: `${BASE_URL}/profile/get-user-details`,
-  UPDATE_PROFILE: `${BASE_URL}/profile/update-profile`,
-  UPDATE_DISPLAY_PICTURE: `${BASE_URL}/profile/update-display-picture`,
-  DELETE_ACCOUNT: `${BASE_URL}/profile/delete-account`,
+  GET_PROFILE: `${BASE_URL}/profile/me`,
+  UPDATE_PROFILE: `${BASE_URL}/profile/me`,
+  UPDATE_DISPLAY_PICTURE: `${BASE_URL}/profile/profile-imafge`,
+  DELETE_ACCOUNT: `${BASE_URL}/profile/me`,
 };
 
 // ===============================
 // COURSE (PUBLIC + INSTRUCTOR)
 // ===============================
 export const courseEndpoints = {
-  GET_ALL_COURSES: `${BASE_URL}/course/all`,
-  GET_COURSE_DETAILS: `${BASE_URL}/course/details`,
-  CREATE_COURSE: `${BASE_URL}/course/create`,
-  EDIT_COURSE: `${BASE_URL}/course/edit`,
-  DELETE_COURSE: `${BASE_URL}/course/delete`,
-  GET_INSTRUCTOR_COURSES: `${BASE_URL}/course/instructor-courses`,
+  GET_COURSE_DETAILS: `${BASE_URL}/course/:courseId`,
+  CREATE_COURSE: `${BASE_URL}/course`,
+  EDIT_COURSE: `${BASE_URL}/course/:courseId`,
+  DELETE_COURSE: `${BASE_URL}/course/:courseId`,
+  GET_INSTRUCTOR_COURSES: `${BASE_URL}/course/instructor`,
 };
 
 // ===============================
@@ -41,26 +40,26 @@ export const courseEndpoints = {
 // ===============================
 export const sectionEndpoints = {
   CREATE_SECTION: `${BASE_URL}/section/create-section`,
-  UPDATE_SECTION: `${BASE_URL}/section/update-section`,
-  DELETE_SECTION: `${BASE_URL}/section/delete-section`,
+  UPDATE_SECTION: `${BASE_URL}/section/:sectionId`,
+  DELETE_SECTION: `${BASE_URL}/section/:sectionId`,
 };
 
 // ===============================
 // SUBSECTION (INSTRUCTOR)
 // ===============================
 export const subsectionEndpoints = {
-  CREATE_SUBSECTION: `${BASE_URL}/section/create-subsection`,
-  UPDATE_SUBSECTION: `${BASE_URL}/section/update-subsection`,
-  DELETE_SUBSECTION: `${BASE_URL}/section/delete-subsection`,
+  CREATE_SUBSECTION: `${BASE_URL}/section/`,
+  UPDATE_SUBSECTION: `${BASE_URL}/section/:subsectionId`,
+  DELETE_SUBSECTION: `${BASE_URL}/section/:subsectionId`,
 };
 
 // ===============================
 // CATEGORY
 // ===============================
 export const categoryEndpoints = {
-  GET_ALL_CATEGORIES: `${BASE_URL}/category/all`,
-  GET_CATEGORY_PAGE_DETAILS: `${BASE_URL}/category/page-details`,
-  CREATE_CATEGORY: `${BASE_URL}/category/create`, // admin
+  GET_ALL_CATEGORIES: `${BASE_URL}/category`,
+  GET_CATEGORY_PAGE_DETAILS: `${BASE_URL}/category/:categoryId`,
+  CREATE_CATEGORY: `${BASE_URL}/category`, // admin
 };
 
 // ===============================
@@ -77,7 +76,7 @@ export const cartEndpoints = {
 // ENROLLMENT
 // ===============================
 export const enrollmentEndpoints = {
-  CHECKOUT_CART: `${BASE_URL}/enrollments/checkout`,
+  CHECKOUT_CART: `${BASE_URL}/enrollments/enroll`,
   GET_MY_ENROLLED_COURSES: `${BASE_URL}/enrollments/my-courses`,
-  GET_ENROLLED_COURSE_DETAILS: `${BASE_URL}/enrollments/course-details`,
+  GET_ENROLLED_COURSE_DETAILS: `${BASE_URL}/enrollments/:courseId`,
 };

@@ -55,10 +55,25 @@ export const getMyEnrolledCourses = () => async (dispatch) => {
   }
 };
 
+
 /* =========================================================
-   SET ACTIVE ENROLLED COURSE (LOCAL STATE)
+   GET FULL COURSE DETAILS (ENROLLED USER)
 ========================================================= */
-export const selectEnrolledCourse =
-  (course) => (dispatch) => {
-    dispatch(setActiveCourse(course));
-  };
+export const getFullCourseDetails = (courseId) => async (dispatch) => {
+  dispatch(setCourseLoading(true));
+  try {
+    const res = await apiConnector({
+      method: "POST",
+      url: courseEndpoints.GET_FULL_COURSE_DETAILS,
+      data: { courseId },
+    });
+
+    if (!res.data.success) throw new Error(res.data.message);
+
+    dispatch(setCourseDetails(res.data.data.courseDetails));
+  } catch (err) {
+    dispatch(setCourseError(err.message));
+  } finally {
+    dispatch(setCourseLoading(false));
+  }
+};

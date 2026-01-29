@@ -12,11 +12,6 @@ const { auth, isStudent } = require("../middleware/auth");
 // student
 router.post("/enroll", auth, isStudent, enrollCartCourses);
 router.get("/my-courses", auth, isStudent, getMyEnrolledCourses);
-router.get(
-  "/course/:courseId",
-  auth,
-  isStudent,
-  getEnrolledCourseContent
-);
+router.get("/:courseId",auth,isStudent,getEnrolledCourseContent);
 
 module.exports = router;

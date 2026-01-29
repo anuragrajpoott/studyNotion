@@ -9,27 +9,6 @@ import {
   setCourseError,
 } from "../../store/slices/courseSlice";
 
-/* =========================================================
-   GET ALL COURSES (PUBLIC)
-========================================================= */
-export const getAllCourses = () => async (dispatch) => {
-  dispatch(setCourseLoading(true));
-  try {
-    const res = await apiConnector({
-      method: "GET",
-      url: courseEndpoints.GET_ALL_COURSES,
-    });
-
-    if (!res.data.success) throw new Error(res.data.message);
-
-    dispatch(setCourses(res.data.data));
-  } catch (err) {
-    dispatch(setCourseError(err.message));
-    toast.error("Failed to load courses");
-  } finally {
-    dispatch(setCourseLoading(false));
-  }
-};
 
 /* =========================================================
    GET COURSE DETAILS (PUBLIC)
@@ -53,27 +32,6 @@ export const getCourseDetails = (courseId) => async (dispatch) => {
   }
 };
 
-/* =========================================================
-   GET FULL COURSE DETAILS (ENROLLED USER)
-========================================================= */
-export const getFullCourseDetails = (courseId) => async (dispatch) => {
-  dispatch(setCourseLoading(true));
-  try {
-    const res = await apiConnector({
-      method: "POST",
-      url: courseEndpoints.GET_FULL_COURSE_DETAILS,
-      data: { courseId },
-    });
-
-    if (!res.data.success) throw new Error(res.data.message);
-
-    dispatch(setCourseDetails(res.data.data.courseDetails));
-  } catch (err) {
-    dispatch(setCourseError(err.message));
-  } finally {
-    dispatch(setCourseLoading(false));
-  }
-};
 
 /* =========================================================
    GET INSTRUCTOR COURSES
