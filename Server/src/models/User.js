@@ -26,45 +26,24 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, // 🔐 important
+      select: false,
     },
 
     accountType: {
       type: String,
       enum: ["Admin", "Student", "Instructor"],
       default: "Student",
+      index: true,
     },
 
-    additionalDetails: {
+    profile: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Profile",
-      required: true,
+      default: null,
     },
-
-    courses: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Course",
-      },
-    ],
-    profileImage: {
-      type: String,
-    },
-
-    token: {
-      type: String,
-    },
-
-    otp: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "Otp",
-},
 
   },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+  { timestamps: true, versionKey: false }
 );
 
 module.exports = mongoose.model("User", userSchema);

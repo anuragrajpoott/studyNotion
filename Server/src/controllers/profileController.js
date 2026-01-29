@@ -1,7 +1,6 @@
-const Profile = require("../models/Profile");
-const Course = require("../models/Course");
 const User = require("../models/User");
-const mongoose = require("mongoose");
+const Profile = require("../models/Profile");
+const Enrollment = require("../models/Enrollment");
 const { uploadImageToCloudinary } = require("../config/cloudinary");
 
 /* =========================================================
@@ -9,37 +8,24 @@ const { uploadImageToCloudinary } = require("../config/cloudinary");
 ========================================================= */
 exports.updateProfile = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      dateOfBirth,
-      about,
-      contactNumber,
-      gender,
-    } = req.body;
-
     const userId = req.user.id;
+    const { firstName, lastName, dateOfBirth, about, contactNumber, gender } =
+      req.body;
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    // update user basic info
+    // update basic user info
     if (firstName) user.firstName = firstName;
     if (lastName) user.lastName = lastName;
     await user.save();
 
     // update profile
-    const profile = await Profile.findById(user.additionalDetails);
+    const profile = await Profile.findById(user.profile);
     if (!profile) {
-      return res.status(404).json({
-        success: false,
-        message: "Profile not found",
-      });
+      return res.status(404).json({ success: false, message: "Profile not found" });
     }
 
     if (dateOfBirth) profile.dateOfBirth = dateOfBirth;
@@ -49,109 +35,28 @@ exports.updateProfile = async (req, res) => {
 
     await profile.save();
 
-    const updatedUserDetails = await User.findById(userId)
-      .populate("additionalDetails")
-      .exec();
+    const updatedUser = await User.findById(userId).populate("profile");
 
     return res.status(200).json({
       success: true,
       message: "Profile updated successfully",
-      data: updatedUserDetails,
+      data: updatedUser,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
-/* =========================================================
-   DELETE ACCOUNT
-========================================================= */
-exports.deleteAccount = async (req, res) => {
-  try {
-    const userId = req.user.id;
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    // remove user from enrolled courses
-    await Course.updateMany(
-      { studentsEnrolled: userId },
-      { $pull: { studentsEnrolled: userId } }
-    );
-
-    // delete course progress
-    await CourseProgress.deleteMany({ user: userId });
-
-    // delete profile
-    await Profile.findByIdAndDelete(user.additionalDetails);
-
-    // delete user
-    await User.findByIdAndDelete(userId);
-
-    return res.status(200).json({
-      success: true,
-      message: "User deleted successfully",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "User cannot be deleted",
-      error: error.message,
-    });
-  }
-};
-
-/* =========================================================
-   GET LOGGED IN USER DETAILS
-========================================================= */
-exports.getAllUserDetails = async (req, res) => {
-  try {
-    const userId = req.user.id;
-
-    const userDetails = await User.findById(userId)
-      .populate("additionalDetails")
-      .exec();
-
-    if (!userDetails) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      data: userDetails,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-/* =========================================================
-   UPDATE DISPLAY PICTURE
-========================================================= */
 exports.updateDisplayPicture = async (req, res) => {
   try {
     const userId = req.user.id;
     const displayPicture = req.files?.displayPicture;
 
     if (!displayPicture) {
-      return res.status(400).json({
-        success: false,
-        message: "Display picture is required",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "Display picture required" });
     }
 
     const image = await uploadImageToCloudinary(
@@ -161,93 +66,66 @@ exports.updateDisplayPicture = async (req, res) => {
       1000
     );
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       userId,
-      { image: image.secure_url },
+      { profileImage: image.secure_url },
       { new: true }
-    );
+    ).populate("profile");
 
     return res.status(200).json({
       success: true,
-      message: "Display picture updated successfully",
-      data: updatedUser,
+      message: "Profile image updated",
+      data: user,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
-/* =========================================================
-   GET ENROLLED COURSES (STUDENT DASHBOARD)
-========================================================= */
-exports.getEnrolledCourses = async (req, res) => {
+
+exports.deleteAccount = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    let userDetails = await User.findById(userId)
-      .populate({
-        path: "courses",
-        populate: {
-          path: "courseContent",
-          populate: { path: "subSection" },
-        },
-      })
-      .exec();
-
-    if (!userDetails) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
-    userDetails = userDetails.toObject();
+    // delete enrollments
+    await Enrollment.deleteMany({ user: userId });
+
+    // delete profile
+    if (user.profile) {
+      await Profile.findByIdAndDelete(user.profile);
+    }
+
+    // delete user
+    await User.findByIdAndDelete(userId);
 
     return res.status(200).json({
       success: true,
-      data: userDetails.courses,
+      message: "Account deleted successfully",
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
-/* =========================================================
-   INSTRUCTOR DASHBOARD
-========================================================= */
-exports.instructorDashboard = async (req, res) => {
+
+exports.getLoggedInUser = async (req, res) => {
   try {
-    const instructorId = req.user.id;
+    const user = await User.findById(req.user.id).populate("profile");
 
-    const courses = await Course.find({ instructor: instructorId });
-
-    const courseStats = courses.map((course) => {
-      const totalStudentsEnrolled = course.studentsEnrolled.length;
-      const totalRevenue = totalStudentsEnrolled * course.price;
-
-      return {
-        _id: course._id,
-        courseName: course.courseName,
-        courseDescription: course.courseDescription,
-        totalStudentsEnrolled,
-        totalRevenue,
-      };
-    });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
 
     return res.status(200).json({
       success: true,
-      data: courseStats,
+      data: user,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };

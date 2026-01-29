@@ -27,6 +27,7 @@ const subSectionSchema = new mongoose.Schema(
     section: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Section",
+      required: true,
       index: true,
     },
 
@@ -41,5 +42,7 @@ const subSectionSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("SubSection", subSectionSchema);
+// compound index for ordered reads
+subSectionSchema.index({ section: 1, order: 1 });
 
+module.exports = mongoose.model("SubSection", subSectionSchema);

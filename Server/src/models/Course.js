@@ -22,17 +22,7 @@ const courseSchema = new mongoose.Schema(
       index: true,
     },
 
-    whatYouWillLearn: {
-      type: String,
-      trim: true,
-    },
-
-    courseContent: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Section",
-      },
-    ],
+    whatYouWillLearn: String,
 
     price: {
       type: Number,
@@ -40,9 +30,7 @@ const courseSchema = new mongoose.Schema(
       min: 0,
     },
 
-    thumbnail: {
-      type: String,
-    },
+    thumbnail: String,
 
     tag: {
       type: [String],
@@ -56,16 +44,7 @@ const courseSchema = new mongoose.Schema(
       index: true,
     },
 
-    studentsEnrolled: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-
-    instructions: {
-      type: [String],
-    },
+    instructions: [String],
 
     status: {
       type: String,
@@ -74,11 +53,7 @@ const courseSchema = new mongoose.Schema(
       index: true,
     },
   },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+  { timestamps: true, versionKey: false }
 );
-
 
 module.exports = mongoose.model("Course", courseSchema);

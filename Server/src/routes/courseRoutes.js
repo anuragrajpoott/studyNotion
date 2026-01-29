@@ -4,26 +4,20 @@ const router = express.Router();
 const {
   createCourse,
   editCourse,
-  getAllCourses,
-  getCourseDetails,
-  getFullCourseDetails,
-  getInstructorCourses,
   deleteCourse,
+  getCourseDetails,
+  getInstructorCourses,
 } = require("../controllers/courseController");
 
 const { auth, isInstructor } = require("../middleware/auth");
 
 // instructor
-router.post("/create", auth, isInstructor, createCourse);
-router.put("/edit", auth, isInstructor, editCourse);
-router.get("/instructor-courses", auth, isInstructor, getInstructorCourses);
-router.delete("/delete", auth, isInstructor, deleteCourse);
+router.post("/", auth, isInstructor, createCourse);
+router.put("/:courseId", auth, isInstructor, editCourse);
+router.delete("/:courseId", auth, isInstructor, deleteCourse);
+router.get("/instructor/me", auth, isInstructor, getInstructorCourses);
 
 // public
-router.get("/all", getAllCourses);
-router.post("/details", getCourseDetails);
-
-// enrolled user
-router.post("/full-details", auth, getFullCourseDetails);
+router.get("/:courseId", getCourseDetails);
 
 module.exports = router;

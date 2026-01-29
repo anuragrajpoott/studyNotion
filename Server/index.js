@@ -7,24 +7,26 @@ const dotenv = require("dotenv");
 const { connect } = require("./src/config/database");
 const { cloudinaryConnect } = require("./src/config/cloudinary");
 
-// Routes
+// Route imports (FINAL)
 const authRoutes = require("./src/routes/authRoutes");
 const profileRoutes = require("./src/routes/profileRoutes");
 const courseRoutes = require("./src/routes/courseRoutes");
 const categoryRoutes = require("./src/routes/categoryRoutes");
+const enrollmentRoutes = require("./src/routes/enrollmentRoutes");
 const sectionRoutes = require("./src/routes/sectionRoutes");
+const subsectionRoutes = require("./src/routes/subsectionRoutes");
 
 dotenv.config();
 
 const app = express();
 
 /* =========================================================
-   TRUST PROXY
+   TRUST PROXY (for cookies behind reverse proxy)
 ========================================================= */
 app.set("trust proxy", 1);
 
 /* =========================================================
-   MIDDLEWARES
+   CORE MIDDLEWARES
 ========================================================= */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -53,29 +55,31 @@ connect();
 cloudinaryConnect();
 
 /* =========================================================
-   ROUTES
+   API ROUTES (DOMAIN-BASED)
 ========================================================= */
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/profile", profileRoutes);
-app.use("/api/v1/course", courseRoutes);
-app.use("/api/v1/category", categoryRoutes);
-app.use("/api/v1/section", sectionRoutes);
+app.use("/api/v1/users", profileRoutes);
+app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/enrollments", enrollmentRoutes);
+app.use("/api/v1/sections", sectionRoutes);
+app.use("/api/v1/subsections", subsectionRoutes);
 
 /* =========================================================
    HEALTH CHECK
 ========================================================= */
 app.get("/", (req, res) => {
-  res.status(200).send(
-    `<h3>🚀 StudyNotion Backend is running</h3>
-     <p>Environment: ${process.env.NODE_ENV}</p>`
-  );
+  res.status(200).send(`
+    <h3>🚀 LMS Backend is running</h3>
+    <p>Environment: ${process.env.NODE_ENV}</p>
+  `);
 });
 
 /* =========================================================
    GLOBAL ERROR HANDLER
 ========================================================= */
 app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
+  console.error("❌ Error:", err.stack);
   res.status(500).json({
     success: false,
     message: "Internal Server Error",

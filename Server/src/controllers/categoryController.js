@@ -89,8 +89,7 @@ exports.categoryPageDetails = async (req, res) => {
       category: categoryId,
       status: "Published",
     })
-      .populate("instructor")
-      .populate("ratingAndReviews");
+      .populate("instructor");
 
     if (selectedCategoryCourses.length === 0) {
       return res.status(404).json({

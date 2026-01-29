@@ -9,11 +9,11 @@ const {
 
 const { auth, isAdmin } = require("../middleware/auth");
 
-// admin only
-router.post("/create", auth, isAdmin, createCategory);
+// admin
+router.post("/", auth, isAdmin, createCategory);
 
 // public
-router.get("/all", showAllCategories);
-router.post("/page-details", categoryPageDetails);
+router.get("/", showAllCategories);
+router.get("/:categoryId", categoryPageDetails);
 
 module.exports = router;

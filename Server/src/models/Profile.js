@@ -7,9 +7,7 @@ const profileSchema = new mongoose.Schema(
       enum: ["Male", "Female", "Other"],
     },
 
-    dateOfBirth: {
-      type: Date, // ✅ correct type
-    },
+    dateOfBirth: Date,
 
     about: {
       type: String,
@@ -18,14 +16,13 @@ const profileSchema = new mongoose.Schema(
     },
 
     contactNumber: {
-      type: String, // ✅ phone numbers should be strings
+      type: String,
       trim: true,
     },
+
+    profileImage: String,
   },
-  {
-    timestamps: true,
-    versionKey: false,
-  }
+  { timestamps: true, versionKey: false }
 );
 
 module.exports = mongoose.model("Profile", profileSchema);

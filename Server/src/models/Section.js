@@ -11,15 +11,9 @@ const sectionSchema = new mongoose.Schema(
     course: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
+      required: true,
       index: true,
     },
-
-    subSection: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "SubSection",
-      },
-    ],
 
     order: {
       type: Number,
@@ -31,5 +25,8 @@ const sectionSchema = new mongoose.Schema(
     versionKey: false,
   }
 );
+
+// compound index for ordered reads
+sectionSchema.index({ course: 1, order: 1 });
 
 module.exports = mongoose.model("Section", sectionSchema);

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const otpSchema = new mongoose.Schema(
+const tokenSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -9,8 +9,8 @@ const otpSchema = new mongoose.Schema(
       index: true,
     },
 
-    otpHash: {
-      type: String,
+    tokenHash: {
+      type: String, // store hashed token
       required: true,
       select: false,
     },
@@ -21,7 +21,9 @@ const otpSchema = new mongoose.Schema(
       index: { expires: 0 },
     },
 
-    isUsed: {
+    device: String,
+    ip: String,
+    isRevoked: {
       type: Boolean,
       default: false,
     },
@@ -29,4 +31,4 @@ const otpSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Otp", otpSchema);
+module.exports = mongoose.model("Token", tokenSchema);
