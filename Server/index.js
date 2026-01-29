@@ -15,6 +15,7 @@ const categoryRoutes = require("./src/routes/categoryRoutes");
 const enrollmentRoutes = require("./src/routes/enrollmentRoutes");
 const sectionRoutes = require("./src/routes/sectionRoutes");
 const subsectionRoutes = require("./src/routes/subsectionRoutes");
+const cartRoutes = require("./src/routes/cartRoutes");
 
 dotenv.config();
 
@@ -64,6 +65,8 @@ app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/enrollments", enrollmentRoutes);
 app.use("/api/v1/sections", sectionRoutes);
 app.use("/api/v1/subsections", subsectionRoutes);
+app.use("/api/v1/cart", cartRoutes);
+
 
 /* =========================================================
    HEALTH CHECK

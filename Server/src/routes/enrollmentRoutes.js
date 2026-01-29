@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  enrollInCourse,
+  enrollCartCourses,
   getMyEnrolledCourses,
   getEnrolledCourseContent,
 } = require("../controllers/enrollmentController");
@@ -10,7 +10,7 @@ const {
 const { auth, isStudent } = require("../middleware/auth");
 
 // student
-router.post("/enroll", auth, isStudent, enrollInCourse);
+router.post("/enroll", auth, isStudent, enrollCartCourses);
 router.get("/my-courses", auth, isStudent, getMyEnrolledCourses);
 router.get(
   "/course/:courseId",

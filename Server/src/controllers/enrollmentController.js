@@ -3,64 +3,79 @@ const Course = require("../models/Course");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
 const Enrollment = require("../models/Enrollment");
-
+const Cart = require("../models/Cart");
 
 /* =========================================================
-   ENROLL IN COURSE (NO PAYMENT)
+   ENROLL CART COURSES
 ========================================================= */
-exports.enrollInCourse = async (req, res) => {
+
+exports.enrollCartCourses = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { courseId } = req.body;
 
-    if (!courseId) {
+    // 1. Get cart
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart || cart.items.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Course ID is required",
+        message: "Cart is empty",
       });
     }
 
-    // 1️⃣ Check course exists & is published
-    const course = await Course.findOne({
-      _id: courseId,
-      status: "Published",
-    });
+    const enrollments = [];
 
-    if (!course) {
-      return res.status(404).json({
-        success: false,
-        message: "Course not found or not published",
+    // 2. Process each course in cart
+    for (const courseId of cart.items) {
+      const course = await Course.findOne({
+        _id: courseId,
+        status: "Published",
       });
+
+      if (!course) {
+        return res.status(404).json({
+          success: false,
+          message: "Course not found or not published",
+        });
+      }
+
+
+      // Check existing enrollment
+      const alreadyEnrolled = await Enrollment.findOne({
+        user: userId,
+        course: courseId,
+      });
+
+      if (alreadyEnrolled) {
+        return res.status(400).json({
+          success: false,
+          message: "Already enrolled in one of the courses",
+        });
+      }
+
+      // Create enrollment
+      const enrollment = await Enrollment.create({
+        user: userId,
+        course: courseId,
+      });
+
+      enrollments.push(enrollment);
     }
 
-    // 2️⃣ Check if already enrolled
-    const existingEnrollment = await Enrollment.findOne({
-      user: userId,
-      course: courseId,
-    });
+    // 3. Clear cart after successful enrollments
+    cart.items = [];
+    await cart.save();
 
-    if (existingEnrollment) {
-      return res.status(409).json({
-        success: false,
-        message: "Already enrolled in this course",
-      });
-    }
-
-    // 3️⃣ Create enrollment
-    const enrollment = await Enrollment.create({
-      user: userId,
-      course: courseId,
-    });
-
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
-      message: "Enrolled successfully",
-      data: enrollment,
+      message: "Successfully enrolled in all courses",
+      data: enrollments,
     });
+
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Failed to enroll in course",
+      message: "Enrollment failed",
       error: error.message,
     });
   }
