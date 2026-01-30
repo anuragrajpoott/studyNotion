@@ -1,6 +1,7 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/common/Navbar";
+import Navbar from "./components/Nav/Nav";
 
 // Pages
 import Home from "./pages/Home";
@@ -8,25 +9,22 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Catalog from "./pages/Catalog";
-import CourseDetails from "./pages/CourseDetails";
+import Category from "./pages/Category";
 import Error from "./pages/Error";
-import VerifyEmail from "./pages/VerifyEmail";
 
 // Dashboard Pages
-import MyProfile from "./components/core/Dashboard/MyProfile";
-import Settings from "./components/core/Dashboard/Settings";
-import Cart from "./components/core/Dashboard/Cart";
-import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
-import AddCourse from "./components/core/Dashboard/AddCourse";
-import MyCourses from "./components/core/Dashboard/MyCourses";
-import EditCourse from "./components/core/Dashboard/EditCourse";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Cart from "./pages/Cart";
+import createCourse from "./pages/CreateCourse";
+import myCourses from "./pages/MyCourses";
+
 
 // Guards
-import OpenRoute from "./components/core/Auth/OpenRoute";
-import PrivateRoute from "./components/core/Auth/PrivateRoute";
-import StudentRoute from "./components/core/Auth/StudentRoute";
-import InstructorRoute from "./components/core/Auth/InstructorRoute";
+import OpenRoute from "./components/core/OpenRoute";
+import PrivateRoute from "./components/core/PrivateRoute";
+import StudentRoute from "./components/core/StudentRoute";
+import InstructorRoute from "./components/core/InstructorRoute";
 
 function App() {
   return (
@@ -38,10 +36,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/catalog/:catalogName" element={<Catalog />} />
-        <Route path="/courses/:courseId" element={<CourseDetails />} />
+        <Route path="/category/:categoryId" element={<Category />} />
 
-        {/* ================= AUTH ROUTES ================= */}
+        {/* =================Auth ROUTES ================= */}
         <Route
           path="/login"
           element={
@@ -58,28 +55,21 @@ function App() {
             </OpenRoute>
           }
         />
-        <Route
-          path="/verify-email"
-          element={
-            <OpenRoute>
-              <VerifyEmail />
-            </OpenRoute>
-          }
-        />
+
 
         {/* ================= DASHBOARD (FLAT ROUTES) ================= */}
 
         <Route
-          path="/dashboard/my-profile"
+          path="/profile"
           element={
             <PrivateRoute>
-              <MyProfile />
+              <Profile />
             </PrivateRoute>
           }
         />
 
         <Route
-          path="/dashboard/settings"
+          path="/settings"
           element={
             <PrivateRoute>
               <Settings />
@@ -89,47 +79,33 @@ function App() {
 
         {/* STUDENT */}
         <Route
-          path="/dashboard/cart"
+          path="/cart"
           element={
             <StudentRoute>
               <Cart />
             </StudentRoute>
           }
         />
-        <Route
-          path="/dashboard/enrolled-courses"
-          element={
-            <StudentRoute>
-              <EnrolledCourses />
-            </StudentRoute>
-          }
-        />
+
 
         {/* INSTRUCTOR */}
         <Route
-          path="/dashboard/add-course"
+          path="/create-course"
           element={
             <InstructorRoute>
-              <AddCourse />
+              <createCourse />
             </InstructorRoute>
           }
         />
         <Route
-          path="/dashboard/my-courses"
+          path="/my-courses"
           element={
             <InstructorRoute>
-              <MyCourses />
+              <myCourses />
             </InstructorRoute>
           }
         />
-        <Route
-          path="/dashboard/edit-course/:courseId"
-          element={
-            <InstructorRoute>
-              <EditCourse />
-            </InstructorRoute>
-          }
-        />
+
 
         {/* ================= FALLBACK ================= */}
         <Route path="*" element={<Error />} />
