@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Nav/Nav";
+import Footer from "./components/footer/Footer";    
 
 // Pages
 import Home from "./pages/Home";
@@ -18,6 +19,8 @@ import Settings from "./pages/Settings";
 import Cart from "./pages/Cart";
 import createCourse from "./pages/CreateCourse";
 import myCourses from "./pages/MyCourses";
+
+
 
 
 // Guards
@@ -110,6 +113,8 @@ function App() {
         {/* ================= FALLBACK ================= */}
         <Route path="*" element={<Error />} />
       </Routes>
+
+      <Footer />
     </div>
   );
 }

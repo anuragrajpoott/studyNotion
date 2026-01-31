@@ -1,18 +1,16 @@
+import Button from "../common/Button";
 import React from "react";
-import { Link } from "react-router-dom";
-import Btn from "../common/Btn";
 
-function AuthButtons() {
+export default function AuthButtons() {
   return (
-    <>
-      <Btn linkto="/signup" active={true}>
+    <div className="flex gap-3">
+      <Button to="/signup" variant="primary">
         Sign Up
-      </Btn>
-      <Btn linkto="/login" active={false}>
-      Log In
-      </Btn>
-    </>
+      </Button>
+
+      <Button to="/login" variant="secondary">
+        Log In
+      </Button>
+    </div>
   );
 }
-
-export default AuthButtons;
