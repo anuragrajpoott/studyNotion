@@ -1,8 +1,23 @@
-import React from 'react'
+import ContactDetails from "../components/contact/ContactDetails";
+import ContactForm from "../components/contact/ContactForm";
+import React from "react";
 
- const Contact = () => {
+export default function Contact() {
   return (
-    <div>Contact</div>
-  )
+    <section className="mt-20 pb-20">
+      <div className="mx-auto w-11/12 max-w-maxContent flex flex-col lg:flex-row gap-10">
+        
+        {/* Contact Details */}
+        <div className="lg:w-[40%]">
+          <ContactDetails />
+        </div>
+
+        {/* Contact Form */}
+        <div className="lg:w-[60%]">
+          <ContactForm />
+        </div>
+
+      </div>
+    </section>
+  );
 }
-export default Contact  
