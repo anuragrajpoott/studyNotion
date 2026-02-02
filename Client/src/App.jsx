@@ -28,6 +28,7 @@ import OpenRoute from "./components/core/OpenRoute";
 import PrivateRoute from "./components/core/PrivateRoute";
 import StudentRoute from "./components/core/StudentRoute";
 import InstructorRoute from "./components/core/InstructorRoute";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
   return (
@@ -61,6 +62,15 @@ function App() {
 
 
         {/* ================= DASHBOARD (FLAT ROUTES) ================= */}
+
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard/>
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/profile"

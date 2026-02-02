@@ -1,8 +1,20 @@
-import React from 'react'
+import HeroSection from "../components/home/HeroSection";
+import CodeShowcaseSection from "../components/home/CodeShowCaseSection";
+import CareerSection from "../components/home/CareerSection";
+import React from "react";
+import ExploreMore from "../components/home/ExploreMore";
+import InstructorSection from "../components/home/InstructorSection";
+import LearningLanguageSection from "../components/home/LearningLanguageSection";
 
- const Home = () => {
+export default function HomePage() {
   return (
-    <div>Home</div>
-  )
+    <main>
+      <HeroSection />
+      <CodeShowcaseSection />
+      <ExploreMore />
+      <CareerSection />
+      <LearningLanguageSection/>
+      <InstructorSection />
+    </main>
+  );
 }
-export default Home
