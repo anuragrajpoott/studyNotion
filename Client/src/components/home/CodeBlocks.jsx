@@ -16,7 +16,7 @@ export default function CodeBlocks({
 }) {
   return (
     <div
-      className={`flex ${position} my-20 justify-between flex-col gap-10 lg:gap-10`}
+      className={`flex ${position} my-20 justify-between flex-col gap-10 lg:gap-10 text-white`}
     >
       {/* ================= LEFT SECTION ================= */}
       <div className="w-full lg:w-[50%] flex flex-col gap-8">

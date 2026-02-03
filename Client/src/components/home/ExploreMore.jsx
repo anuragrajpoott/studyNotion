@@ -34,7 +34,7 @@ export default function ExploreMore() {
   }
 
   return (
-    <section className="mx-auto w-11/12 max-w-maxContent">
+    <section className="mx-auto w-11/12 max-w-maxContent text-white">
       {/* ================= HEADER ================= */}
       <div className="text-center my-10">
         <h2 className="text-4xl font-semibold">

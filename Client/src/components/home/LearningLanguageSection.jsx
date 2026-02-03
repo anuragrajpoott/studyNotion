@@ -9,7 +9,7 @@ import PlanYourLessons from "../../assets/visuals/Images/Plan_your_lessons.svg";
 export default function LearningLanguageSection() {
   return (
     <section>
-      <div className="my-10 text-center text-4xl font-semibold">
+      <div className="my-10 text-center text-4xl font-semibold text-white">
         Your swiss knife for{" "}
         <HighlightText text="learning any language" />
 

@@ -14,7 +14,7 @@ export default function FormInput({
 }) {
   return (
     <div className="flex flex-col gap-2 lg:w-[48%]">
-      <label className="label-style">{label}</label>
+      <label className="label-style text-richblack-5 text-[14px]">{label}</label>
       <input
         type={type}
         name={name}
