@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   error: null,
   signupData: null, // for OTP flow only
+  verifyEmail: false
 };
 
 const authSlice = createSlice({
@@ -18,6 +19,10 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
       state.error = null;
+    },
+
+    setVerifyEmail(state, action) {
+      state.verifyEmail = action.payload;
     },
 
     clearUser(state) {
@@ -46,6 +51,7 @@ export const {
   setAuthError,
   setSignupData,
   clearSignupData,
+  setVerifyEmail
 } = authSlice.actions;
 
 export default authSlice.reducer;
