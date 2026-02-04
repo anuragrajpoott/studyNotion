@@ -5,6 +5,7 @@ import React from "react";
 import frameImg from "../../assets/visuals/Images/frame.png";
 import loginImg from "../../assets/visuals/Images/login.webp";
 import FormInput from "..//common/FormInput";
+import { login } from "../../services/operations/authOperations";
 
 export default function LoginSection() {
   const dispatch = useDispatch();
@@ -29,6 +30,11 @@ export default function LoginSection() {
   function handleSubmit(e) {
     e.preventDefault();
     console.log({ ...formData });
+    dispatch(login({ ...formData }, navigate));
+    setFormData({
+      email: "",
+      password: "",
+    });
   }
 
   if (loading) {

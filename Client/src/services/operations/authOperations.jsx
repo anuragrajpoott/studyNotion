@@ -5,48 +5,55 @@ import {
   setAuthLoading,
   setUser,
   setAuthError,
+  setVerifyEmail,
 } from "../../store/slices/authSlice";
 
 /* =========================================================
    SEND OTP
 ========================================================= */
-export const sendOtp = (email, navigate) => async (dispatch) => {
+export const sendOtp = ({email}) => async (dispatch) => {
   dispatch(setAuthLoading(true));
   try {
     const res = await apiConnector({
       method: "POST",
       url: authEndpoints.SEND_OTP,
-      data: { email },
+      data: { email }, // ✅ backend expects this
     });
+
+    console.log("response from sendOtp:", res); // For debugging
 
     if (!res.data.success) throw new Error(res.data.message);
 
+    dispatch(setVerifyEmail(true));
     toast.success("OTP sent successfully");
-    navigate("/verify-email");
   } catch (err) {
+    dispatch(setVerifyEmail(false));
     toast.error(err.message || "Failed to send OTP");
     dispatch(setAuthError(err.message));
+    console.log(err)
   } finally {
     dispatch(setAuthLoading(false));
   }
 };
 
+
+
 /* =========================================================
    SIGNUP
 ========================================================= */
-export const signup = (payload, navigate) => async (dispatch) => {
+export const signup = ({firstName, lastName, email, password, confirmPassword, otp}, navigate) => async (dispatch) => {
   dispatch(setAuthLoading(true));
   try {
     const res = await apiConnector({
       method: "POST",
       url: authEndpoints.SIGNUP,
-      data: payload,
+      data: {firstName, lastName, email, password, confirmPassword, otp}
     });
 
     if (!res.data.success) throw new Error(res.data.message);
 
     toast.success("Signup successful");
-    navigate("/login");
+    navigate("/dashboard");
   } catch (err) {
     toast.error(err.message || "Signup failed");
     dispatch(setAuthError(err.message));
@@ -68,6 +75,8 @@ export const login = (payload, navigate) => async (dispatch) => {
     });
 
     if (!res.data.success) throw new Error(res.data.message);
+
+    console.log("Login response:", res); // For debugging purposes
 
     dispatch(setUser(res.data.user));
     toast.success("Login successful");

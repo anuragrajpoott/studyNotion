@@ -15,6 +15,7 @@ require("dotenv").config();
 ========================================================= */
 exports.sendOtp = async (req, res) => {
   try {
+    console.log("Request Body:", req.body); // For debugging
     const { email } = req.body;
 
     if (!email) {
@@ -41,6 +42,8 @@ exports.sendOtp = async (req, res) => {
       specialChars: false,
     });
 
+    console.log("Generated OTP:", otp); // For testing purposes
+
     const otpHash = await bcrypt.hash(otp, 10);
 
     await OTP.create({
@@ -58,8 +61,11 @@ exports.sendOtp = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "OTP sent successfully",
+      otp, // For testing purposes
     });
   } catch (error) {
+    console.log("Error in sendOtp:", error); // For debugging
+    console.error("❌ Error in sendOtp:", error);
     return res.status(500).json({
       success: false,
       message: "Failed to send OTP",

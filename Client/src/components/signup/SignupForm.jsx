@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { ACCOUNT_TYPE } from "../../utils/constants";
 import { toast } from "react-hot-toast";
 import FormInput from "../common/FormInput";
-import { setVerifyEmail } from '../../store/slices/authSlice';
+import { sendOtp } from '../../services/operations/authOperations';
+import { setSignupData } from '../../store/slices/authSlice';
 
  const SignupForm = () => {
 
@@ -33,24 +34,30 @@ import { setVerifyEmail } from '../../store/slices/authSlice';
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
-
-    console.log({ ...formData, accountType });
-dispatch(setVerifyEmail(true));
-
-    setFormData({
-      firstName: "",
-      lastName: "", 
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+  if (password !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
   }
+
+  console.log({ ...formData, accountType });
+
+  // ✅ ONLY email
+  dispatch(sendOtp(formData.email));
+
+  // ✅ full data saved for later signup
+  dispatch(setSignupData({ ...formData, accountType }));
+
+  setFormData({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+}
+
 
 
   const tabData = [

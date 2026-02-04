@@ -1,13 +1,13 @@
 import { toast } from "react-hot-toast";
-import { apiConnector } from "../apiConnector";
-import { profileEndpoints } from "../endpoints";
+import { apiConnector } from "../../utils/apiConnector";
+import { profileEndpoints } from "../apis";
 import {
   setProfile,
   setProfileLoading,
   setProfileError,
   clearProfile,
 } from "../../store/slices/profileSlice";
-import { logout } from "./auth.service";
+import { setUser } from "../../store/slices/authSlice";
 
 /* =========================================================
    GET LOGGED IN USER PROFILE
@@ -23,9 +23,9 @@ export const getProfile = () => async (dispatch) => {
     if (!res.data.success) throw new Error(res.data.message);
 
     dispatch(setProfile(res.data.data));
+    dispatch(setUser(res.data.data)); // Sync auth slice  
   } catch (err) {
     dispatch(setProfileError(err.message));
-    toast.error("Failed to fetch profile");
   } finally {
     dispatch(setProfileLoading(false));
   }

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Navbar from "./components/Nav/Nav";
 import Footer from "./components/footer/Footer";    
@@ -29,8 +30,16 @@ import PrivateRoute from "./components/core/PrivateRoute";
 import StudentRoute from "./components/core/StudentRoute";
 import InstructorRoute from "./components/core/InstructorRoute";
 import { Dashboard } from "./pages/Dashboard";
+import { getProfile } from "./services/operations/profileOperations";
 
 function App() {
+
+  const dispatch = useDispatch(); 
+   
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []); 
+  
   return (
     <div className="min-h-screen bg-richblack-900 font-inter">
       <Navbar />

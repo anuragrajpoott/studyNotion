@@ -20,7 +20,7 @@ export const authEndpoints = {
 export const profileEndpoints = {
   GET_PROFILE: `${BASE_URL}/profile/me`,
   UPDATE_PROFILE: `${BASE_URL}/profile/me`,
-  UPDATE_DISPLAY_PICTURE: `${BASE_URL}/profile/profile-imafge`,
+  UPDATE_DISPLAY_PICTURE: `${BASE_URL}/profile/profile-image`,
   DELETE_ACCOUNT: `${BASE_URL}/profile/me`,
 };
 

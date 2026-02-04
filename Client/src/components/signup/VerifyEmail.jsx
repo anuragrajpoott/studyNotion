@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { RxCountdownTimer } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
+import { signup } from '../../services/operations/authOperations';
 
 
 export default function VerifyEmail() {
@@ -24,11 +25,20 @@ export default function VerifyEmail() {
 
   function handleVerify(e) {
     e.preventDefault();
+
+    const {firstName, lastName, email, password, confirmPassword} = signupData;
+
+    if (otp.length !== 6) {
+      alert("Please enter a valid 6-digit OTP.");
+      return;
+    }
+
+
+    dispatch(signup({ firstName, lastName, email, password, confirmPassword, otp }, navigate));
     
 
     console.log("Verifying OTP:", otp);
 
-    navigate("/login");
   }
 
   function handleResendOtp() {
