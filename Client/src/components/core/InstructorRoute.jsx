@@ -11,7 +11,7 @@ const InstructorRoute = ({ children }) => {
   }
 
   if (user.accountType !== ACCOUNT_TYPE.INSTRUCTOR) {
-    return <Navigate to="/dashboard/my-profile" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

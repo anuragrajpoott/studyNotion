@@ -9,8 +9,10 @@ import AuthButtons from "./AuthButtons";
 import CartIcon from "./CartIcon";
 import ProfileDropdown from "./ProfileDropdown";
 
+import { ACCOUNT_TYPE } from "../../utils/constants";
+
 function Navbar() {
-  const { user } = useSelector((state) => state.profile);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <header className="flex h-14 items-center justify-center border-b border-richblack-700 bg-richblack-800">
@@ -20,7 +22,7 @@ function Navbar() {
         {!user && <PublicNav />}
 
         <div className="hidden items-center gap-4 md:flex">
-          {user && <CartIcon />}
+          {user && user.accountType == ACCOUNT_TYPE.STUDENT && <CartIcon />}
           {!user && <AuthButtons />}
           {user && <ProfileDropdown />}
         </div>

@@ -10,7 +10,7 @@ const StudentRoute = ({ children }) => {
   }
 
   if (user.accountType !== ACCOUNT_TYPE.STUDENT) {
-    return <Navigate to="/dashboard/my-profile" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

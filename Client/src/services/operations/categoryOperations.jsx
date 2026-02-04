@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
-import { apiConnector } from "../apiConnector";
-import { categoryEndpoints } from "../endpoints";
+import { apiConnector } from "../../utils/apiConnector";
+import { categoryEndpoints } from "../apis";
 import {
   setCategoryLoading,
   setCategories,
@@ -20,6 +20,8 @@ export const getAllCategories = () => async (dispatch) => {
     });
 
     if (!res.data.success) throw new Error(res.data.message);
+
+    console.log("Categories fetched:", res.data.data); // For debugging
 
     dispatch(setCategories(res.data.data));
   } catch (err) {

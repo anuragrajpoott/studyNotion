@@ -7,6 +7,7 @@ import {
   setAuthError,
   setVerifyEmail,
 } from "../../store/slices/authSlice";
+import { setIsAuthenticated } from "../../store/slices/authSlice";
 
 /* =========================================================
    SEND OTP
@@ -54,6 +55,8 @@ export const signup = ({firstName, lastName, email, password, confirmPassword, o
 
     toast.success("Signup successful");
     navigate("/dashboard");
+    dispatch(setIsAuthenticated(true));
+    dispatch(setUser(res.data.user));
   } catch (err) {
     toast.error(err.message || "Signup failed");
     dispatch(setAuthError(err.message));
@@ -79,8 +82,9 @@ export const login = (payload, navigate) => async (dispatch) => {
     console.log("Login response:", res); // For debugging purposes
 
     dispatch(setUser(res.data.user));
+    dispatch(setIsAuthenticated(true));
     toast.success("Login successful");
-    navigate("/dashboard/my-profile");
+    navigate("/dashboard");
   } catch (err) {
     toast.error(err.message || "Login failed");
     dispatch(setAuthError(err.message));
@@ -94,6 +98,7 @@ export const login = (payload, navigate) => async (dispatch) => {
 ========================================================= */
 export const logout = (navigate) => (dispatch) => {
   dispatch(setUser(null));
+  dispatch(setIsAuthenticated(false));
   toast.success("Logged out");
   navigate("/");
 };

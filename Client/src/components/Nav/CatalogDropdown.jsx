@@ -1,8 +1,11 @@
 import { BsChevronDown } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { Link, matchPath, useLocation } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getAllCategories } from "../../services/operations/categoryOperations";
 function CatalogDropdown() {
+  const dispatch = useDispatch();
   const location = useLocation();
   const { categories, loading } = useSelector((state) => state.category);
 
@@ -10,6 +13,13 @@ function CatalogDropdown() {
     { path: "/catalog/:catalogName" },
     location.pathname
   );
+
+  useEffect(() => {
+    // Dispatch an action to fetch categories if not already fetched
+    if (!categories || categories.length === 0) {
+      dispatch(getAllCategories());
+    }
+  }, []);  
 
   return (
     <div

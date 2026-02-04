@@ -5,7 +5,7 @@ const OpenRoute = ({ children }) => {
   const { user } = useSelector((state) => state.auth);
 
   if (user) {
-    return <Navigate to="/dashboard/my-profile" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;

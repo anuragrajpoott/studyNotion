@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Navbar from "./components/Nav/Nav";
 import Footer from "./components/footer/Footer";    
@@ -34,10 +35,15 @@ import { getProfile } from "./services/operations/profileOperations";
 
 function App() {
 
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch(); 
    
   useEffect(() => {
-    dispatch(getProfile());
+    
+      dispatch(getProfile());
+    
+    
   }, []); 
   
   return (
@@ -46,10 +52,34 @@ function App() {
 
       <Routes>
         {/* ================= PUBLIC ROUTES ================= */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/category/:categoryId" element={<Category />} />
+
+        <Route
+          path="/"
+          element={
+            <OpenRoute>
+              <Home />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <OpenRoute>
+              <About />
+            </OpenRoute>
+          }
+        />
+
+        <Route
+          path="/contact"
+          element={
+            <OpenRoute>
+              <Contact />
+            </OpenRoute>
+          }
+        />
 
         {/* =================Auth ROUTES ================= */}
         <Route
