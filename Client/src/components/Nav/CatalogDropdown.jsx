@@ -35,11 +35,10 @@ function CatalogDropdown() {
           <p className="text-center">Loading...</p>
         ) : categories?.length ? (
           categories
-            .filter((cat) => cat.courseCount > 0)
             .map((cat) => (
               <Link
                 key={cat._id}
-                to={`/catalog/${cat.name
+                to={`/category/${cat._id
                   .toLowerCase()
                   .replace(/\s+/g, "-")}`}
                 className="block rounded px-3 py-2 hover:bg-richblack-50"

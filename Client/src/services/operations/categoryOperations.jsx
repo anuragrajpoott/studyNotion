@@ -21,7 +21,6 @@ export const getAllCategories = () => async (dispatch) => {
 
     if (!res.data.success) throw new Error(res.data.message);
 
-    console.log("Categories fetched:", res.data.data); // For debugging
 
     dispatch(setCategories(res.data.data));
   } catch (err) {
@@ -40,15 +39,19 @@ export const getCategoryPageDetails =
     dispatch(setCategoryLoading(true));
     try {
       const res = await apiConnector({
-        method: "POST",
-        url: categoryEndpoints.GET_CATEGORY_PAGE_DETAILS,
-        data: { categoryId },
+        method: "GET",
+        url: categoryEndpoints.GET_CATEGORY_PAGE_DETAILS(categoryId),
       });
 
       if (!res.data.success) throw new Error(res.data.message);
 
+
+      // Assuming backend returns courses + metadata, adjust if structure is different  
+
       // backend usually returns courses + metadata
-      dispatch(setCategoryCourses(res.data.data.courses));
+
+  ; // Debug log
+      dispatch(setCategoryCourses(res.data.data));
     } catch (err) {
       dispatch(setCategoryError(err.message));
       toast.error("Failed to load category details");

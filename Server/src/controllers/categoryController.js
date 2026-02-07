@@ -63,6 +63,8 @@ exports.categoryPageDetails = async (req, res) => {
   try {
     const { categoryId } = req.params;
 
+    
+
     if (!categoryId) {
       return res.status(400).json({
         success: false,
@@ -74,6 +76,7 @@ exports.categoryPageDetails = async (req, res) => {
        1. Selected Category
     -------------------------- */
     const selectedCategory = await Category.findById(categoryId);
+
 
     if (!selectedCategory) {
       return res.status(404).json({
@@ -91,12 +94,6 @@ exports.categoryPageDetails = async (req, res) => {
     })
       .populate("instructor");
 
-    if (selectedCategoryCourses.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No courses found for this category",
-      });
-    }
 
     /* -------------------------
        3. Courses from a Different Category

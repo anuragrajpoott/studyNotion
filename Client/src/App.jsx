@@ -41,7 +41,7 @@ function App() {
    
   useEffect(() => {
     
-      dispatch(getProfile());
+      // dispatch(getProfile());
     
     
   }, []); 

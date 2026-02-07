@@ -58,7 +58,9 @@ export const subsectionEndpoints = {
 // ===============================
 export const categoryEndpoints = {
   GET_ALL_CATEGORIES: `${BASE_URL}/category`,
-  GET_CATEGORY_PAGE_DETAILS: `${BASE_URL}/category/:categoryId`,
+  GET_CATEGORY_PAGE_DETAILS(categoryId) {
+    return `${BASE_URL}/category/${categoryId}`;
+  },
   CREATE_CATEGORY: `${BASE_URL}/category`, // admin
 };
 
