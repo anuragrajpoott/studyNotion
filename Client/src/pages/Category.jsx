@@ -23,7 +23,7 @@ export default function Category() {
     dispatch(getCategoryPageDetails(categoryId));
   }, [dispatch, categoryId]);
 
-  if (loading || !categoryCourses) {
+  if (loading || !categoryCourses?.selectedCategory) {
     return (
       <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
         <div className="spinner" />
@@ -33,20 +33,31 @@ export default function Category() {
 
   return (
     <main>
+      {/* HERO */}
       <CategoryHero category={categoryCourses.selectedCategory} />
 
-      <CategoryCoursesSection
-        courses={categoryCourses.selectedCategoryCourses}
-      />
+      {/* CATEGORY COURSES */}
+      {categoryCourses.selectedCategoryCourses?.length > 0 && (
+        <CategoryCoursesSection
+          courses={categoryCourses.selectedCategoryCourses}
+        />
+      )}
 
-      <CategoryTopCourses
-        categoryName={categoryCourses.differentCategory?.name}
-        courses={categoryCourses.differentCategoryCourses}
-      />
+      {/* DIFFERENT CATEGORY */}
+      {categoryCourses.differentCategory &&
+        categoryCourses.differentCategoryCourses?.length > 0 && (
+          <CategoryTopCourses
+            categoryName={categoryCourses.differentCategory.name}
+            courses={categoryCourses.differentCategoryCourses}
+          />
+        )}
 
-      <CategoryFrequentlyBought
-        courses={categoryCourses.mostSellingCourses}
-      />
+      {/* MOST SELLING */}
+      {categoryCourses.mostSellingCourses?.length > 0 && (
+        <CategoryFrequentlyBought
+          courses={categoryCourses.mostSellingCourses}
+        />
+      )}
     </main>
   );
 }

@@ -9,17 +9,20 @@ import CourseCard from "../category/CourseCard";
 
 import React from "react";
 
-export default function CourseSlider({
-  courses = [],
-  cardHeight = "h-[250px]",
-}) {
-  if (!courses.length) {
+export default function CourseSlider({ Courses}) {
+
+  console.log("Courses in CourseSlider:", Courses);
+
+
+  if (Courses.length === 0  ) {
     return (
       <p className="text-xl text-richblack-5">
         No courses found
       </p>
     );
   }
+
+  
 
   return (
     <Swiper
@@ -32,9 +35,9 @@ export default function CourseSlider({
       }}
       className="max-h-120"
     >
-      {courses.map((course) => (
+      {Courses.map((course) => (
         <SwiperSlide key={course?._id}>
-          <CourseCard course={course} Height={cardHeight} />
+          <CourseCard course={course} Height="h-[205px]" />
         </SwiperSlide>
       ))}
     </Swiper>

@@ -5,6 +5,8 @@ import React from "react";
 export default function CategoryHero({ category }) {
 
   
+
+  
   return (
     <section className="bg-richblack-800 px-4">
       <div className="mx-auto flex min-h-65 max-w-maxContent flex-col justify-center gap-4">

@@ -7,6 +7,7 @@ import {
   setCategoryCourses,
   setCategoryError,
 } from "../../store/slices/categorySlice";
+import mockCategoryPageData from "../../assets/data/mockCategoryPageData";
 
 /* =========================================================
    GET ALL CATEGORIES (PUBLIC)
@@ -37,21 +38,27 @@ export const getAllCategories = () => async (dispatch) => {
 export const getCategoryPageDetails =
   (categoryId) => async (dispatch) => {
     dispatch(setCategoryLoading(true));
+
     try {
       const res = await apiConnector({
         method: "GET",
         url: categoryEndpoints.GET_CATEGORY_PAGE_DETAILS(categoryId),
       });
 
-      if (!res.data.success) throw new Error(res.data.message);
+      if (!res?.data?.success) {
+        throw new Error(res?.data?.message || "Something went wrong");
+      }
 
+      const courses = res?.data?.data;
 
-      // Assuming backend returns courses + metadata, adjust if structure is different  
+  
 
-      // backend usually returns courses + metadata
+      if (courses.selectedCategoryCourses.length === 0) {
+        dispatch(setCategoryCourses(mockCategoryPageData));
+      } else {
+        dispatch(setCategoryCourses(courses));
+      }
 
-  ; // Debug log
-      dispatch(setCategoryCourses(res.data.data));
     } catch (err) {
       dispatch(setCategoryError(err.message));
       toast.error("Failed to load category details");
@@ -59,6 +66,7 @@ export const getCategoryPageDetails =
       dispatch(setCategoryLoading(false));
     }
   };
+
 
 /* =========================================================
    CREATE CATEGORY (ADMIN)
