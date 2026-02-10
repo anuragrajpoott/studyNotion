@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
-import { apiConnector } from "../apiConnector";
-import { enrollmentEndpoints } from "../endpoints";
+import { apiConnector } from "../../utils/apiConnector";
+import { enrollmentEndpoints } from "../apis";
 import {
   setEnrollmentLoading,
   setEnrolledCourses,

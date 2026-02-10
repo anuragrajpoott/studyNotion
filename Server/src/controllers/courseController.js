@@ -134,6 +134,7 @@ exports.getCourseDetails = async (req, res) => {
   try {
     const { courseId } = req.params;
 
+
     if(!courseId) {
       return res.status(400).json({ success: false, message: "Course ID is required" });
     }

@@ -25,6 +25,7 @@ import myCourses from "./pages/MyCourses";
 
 
 
+
 // Guards
 import OpenRoute from "./components/core/OpenRoute";
 import PrivateRoute from "./components/core/PrivateRoute";
@@ -32,6 +33,7 @@ import StudentRoute from "./components/core/StudentRoute";
 import InstructorRoute from "./components/core/InstructorRoute";
 import { Dashboard } from "./pages/Dashboard";
 import { getProfile } from "./services/operations/profileOperations";
+import  Course  from "./pages/Course";
 
 function App() {
 
@@ -53,6 +55,8 @@ function App() {
       <Routes>
         {/* ================= PUBLIC ROUTES ================= */}
         <Route path="/category/:categoryId" element={<Category />} />
+
+        <Route path="/courses/:courseId" element={<Course/>} />
 
         <Route
           path="/"

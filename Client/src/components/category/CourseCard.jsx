@@ -32,7 +32,7 @@ export default function CourseCard({
           </p>
 
           <p className="text-sm text-richblack-50">
-            {instructor?.firstName} {instructor?.lastName}
+            {instructor?.name}
           </p>
 
           <p className="text-xl font-semibold text-richblack-5">

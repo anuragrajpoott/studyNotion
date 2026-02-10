@@ -28,10 +28,16 @@ export const profileEndpoints = {
 // COURSE (PUBLIC + INSTRUCTOR)
 // ===============================
 export const courseEndpoints = {
-  GET_COURSE_DETAILS: `${BASE_URL}/course/:courseId`,
+  GET_COURSE_DETAILS(courseId) {
+    return `${BASE_URL}/courses/${courseId}`;
+  },
   CREATE_COURSE: `${BASE_URL}/course`,
-  EDIT_COURSE: `${BASE_URL}/course/:courseId`,
-  DELETE_COURSE: `${BASE_URL}/course/:courseId`,
+  EDIT_COURSE(courseId) {
+    return `${BASE_URL}/courses/${courseId}`;
+  },
+  DELETE_COURSE(courseId) {
+    return `${BASE_URL}/courses/${courseId}`;
+  },
   GET_INSTRUCTOR_COURSES: `${BASE_URL}/course/instructor`,
 };
 

@@ -1,13 +1,13 @@
 import { toast } from "react-hot-toast";
-import { apiConnector } from "../apiConnector";
-import { courseEndpoints } from "../endpoints";
+import { apiConnector } from "../../utils/apiConnector";
+import { courseEndpoints } from "../apis";
 import {
   setCourseLoading,
-  setCourses,
   setCourseDetails,
   setInstructorCourses,
   setCourseError,
 } from "../../store/slices/courseSlice";
+import mockCategoryPageData from "../../assets/data/mockCategoryPageData";
 
 
 /* =========================================================
@@ -15,22 +15,27 @@ import {
 ========================================================= */
 export const getCourseDetails = (courseId) => async (dispatch) => {
   dispatch(setCourseLoading(true));
+
   try {
     const res = await apiConnector({
-      method: "POST",
-      url: courseEndpoints.GET_COURSE_DETAILS,
-      data: { courseId },
+      method: "GET",
+      url: courseEndpoints.GET_COURSE_DETAILS(courseId),
     });
 
-    if (!res.data.success) throw new Error(res.data.message);
+    if (!res?.data?.success) {
+      
+      throw new Error(res?.data?.message || "Failed to fetch course");
+    }
 
-    dispatch(setCourseDetails(res.data.data.courseDetails));
+    dispatch(setCourseDetails(res.data.data));
+
   } catch (err) {
     dispatch(setCourseError(err.message));
   } finally {
     dispatch(setCourseLoading(false));
   }
 };
+
 
 
 /* =========================================================
