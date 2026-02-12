@@ -35,19 +35,20 @@ export const getCart = () => async (dispatch) => {
 /* =========================================================
    ADD COURSE TO CART
 ========================================================= */
-export const addToCart =
-  (course) => async (dispatch) => {
+export const addToCart = (courseId) => async (dispatch) => {
     dispatch(setCartLoading(true));
+    console.log(courseId);
     try {
       const res = await apiConnector({
         method: "POST",
-        url: cartEndpoints.ADD_TO_CART,
-        data: { courseId: course._id },
+        url: cartEndpoints.ADD_TO_CART(courseId),
+        data: { courseId },
       });
 
       if (!res.data.success) throw new Error(res.data.message);
+      console.log(res.data);
 
-      dispatch(addItem(course));
+      dispatch(addItem(res.data.data));
       toast.success("Course added to cart");
     } catch (err) {
       dispatch(setCartError(err.message));

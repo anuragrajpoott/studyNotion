@@ -6,6 +6,7 @@ import {
   setCourseDetails,
   setInstructorCourses,
   setCourseError,
+  setCourses
 } from "../../store/slices/courseSlice";
 import mockCategoryPageData from "../../assets/data/mockCategoryPageData";
 import { setSections } from "../../store/slices/sectionSlice";
@@ -56,6 +57,25 @@ export const getInstructorCourses = () => async (dispatch) => {
     if (!res.data.success) throw new Error(res.data.message);
 
     dispatch(setInstructorCourses(res.data.data));
+  } catch (err) {
+    dispatch(setCourseError(err.message));
+    toast.error("Failed to load instructor courses");
+  } finally {
+    dispatch(setCourseLoading(false));
+  }
+};
+
+export const getAllCourses = () => async (dispatch) => {
+  dispatch(setCourseLoading(true));
+  try {
+    const res = await apiConnector({
+      method: "GET",
+      url: courseEndpoints.GET_ALL_COURSES,
+    });
+
+    if (!res.data.success) throw new Error(res.data.message);
+
+    dispatch(setCourses(res.data.data));
   } catch (err) {
     dispatch(setCourseError(err.message));
     toast.error("Failed to load instructor courses");

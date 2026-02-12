@@ -238,3 +238,26 @@ exports.deleteCourse = async (req, res) => {
     });
   }
 };
+
+
+exports.getAllCourses = async (req, res) => {
+  try {
+    const courses = await Course.find({
+      status: "Published",
+    })
+      .populate("instructor")
+      .populate("category");
+
+    return res.status(200).json({
+      success: true,
+      data: courses,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch courses",
+      error: error.message,
+    });
+  }
+};
+

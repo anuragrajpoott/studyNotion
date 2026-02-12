@@ -38,7 +38,8 @@ export const courseEndpoints = {
   DELETE_COURSE(courseId) {
     return `${BASE_URL}/courses/${courseId}`;
   },
-  GET_INSTRUCTOR_COURSES: `${BASE_URL}/course/instructor`,
+  GET_INSTRUCTOR_COURSES: `${BASE_URL}/courses/instructor`,
+  GET_ALL_COURSES: `${BASE_URL}/courses`
 };
 
 // ===============================
@@ -75,7 +76,9 @@ export const categoryEndpoints = {
 // ===============================
 export const cartEndpoints = {
   GET_CART: `${BASE_URL}/cart`,
-  ADD_TO_CART: `${BASE_URL}/cart/add`,
+  ADD_TO_CART(courseId){
+    return `${BASE_URL}/cart/add/${courseId}`
+  },
   REMOVE_FROM_CART: `${BASE_URL}/cart/remove`,
   CLEAR_CART: `${BASE_URL}/cart/clear`,
 };

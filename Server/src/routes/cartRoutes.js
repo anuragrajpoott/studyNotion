@@ -12,7 +12,7 @@ const { auth, isStudent } = require("../middleware/auth");
 
 // student only
 router.get("/", auth, isStudent, getCart);
-router.post("/add", auth, isStudent, addToCart);
+router.post("/add/:courseId", auth, isStudent, addToCart);
 router.post("/remove", auth, isStudent, removeFromCart);
 router.post("/clear", auth, isStudent, clearCart);
 

@@ -7,6 +7,7 @@ const {
   deleteCourse,
   getCourseDetails,
   getInstructorCourses,
+  getAllCourses
 } = require("../controllers/courseController");
 
 const { auth, isInstructor } = require("../middleware/auth");
@@ -19,5 +20,6 @@ router.get("/instructor", auth, isInstructor, getInstructorCourses);
 
 // public
 router.get("/:courseId", getCourseDetails);
+router.get("/",getAllCourses)
 
 module.exports = router;

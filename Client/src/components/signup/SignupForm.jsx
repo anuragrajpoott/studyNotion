@@ -43,8 +43,12 @@ import { setSignupData } from '../../store/slices/authSlice';
 
   console.log({ ...formData, accountType });
 
+  console.log(formData.email)
+
   // ✅ ONLY email
   dispatch(sendOtp(formData.email));
+
+
 
   // ✅ full data saved for later signup
   dispatch(setSignupData({ ...formData, accountType }));

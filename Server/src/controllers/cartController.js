@@ -33,7 +33,9 @@ exports.getCart = async (req, res) => {
 exports.addToCart = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { courseId } = req.body;
+    const { courseId } = req.params;
+
+    console.log(courseId)
 
     if (!courseId) {
       return res.status(400).json({

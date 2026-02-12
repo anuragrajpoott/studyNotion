@@ -13,7 +13,8 @@ import { setIsAuthenticated } from "../../store/slices/authSlice";
 /* =========================================================
    SEND OTP
 ========================================================= */
-export const sendOtp = ({email}) => async (dispatch) => {
+export const sendOtp = (email) => async (dispatch) => {
+  console.log(email)
   dispatch(setAuthLoading(true));
   try {
     const res = await apiConnector({

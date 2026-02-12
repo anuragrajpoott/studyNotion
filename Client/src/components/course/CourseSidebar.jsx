@@ -18,6 +18,8 @@ const CourseSidebar = ({ course }) => {
   const navigate = useNavigate();
   const { courseId } = useParams();
 
+  
+
   const { user } = useSelector((state) => state.auth);
   const { enrollmentLoading } = useSelector((state) => state.enrollment);
 

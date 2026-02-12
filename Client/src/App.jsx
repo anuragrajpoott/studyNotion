@@ -31,7 +31,7 @@ import OpenRoute from "./components/core/OpenRoute";
 import PrivateRoute from "./components/core/PrivateRoute";
 import StudentRoute from "./components/core/StudentRoute";
 import InstructorRoute from "./components/core/InstructorRoute";
-import { Dashboard } from "./pages/Dashboard";
+import Dashboard  from "./pages/Dashboard";
 import { getProfile } from "./services/operations/profileOperations";
 import  Course  from "./pages/Course";
 
@@ -43,7 +43,7 @@ function App() {
    
   useEffect(() => {
     
-      // dispatch(getProfile());
+      dispatch(getProfile());
     
     
   }, []); 
