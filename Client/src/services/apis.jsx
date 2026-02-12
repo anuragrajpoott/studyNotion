@@ -85,6 +85,7 @@ export const cartEndpoints = {
 // ===============================
 export const enrollmentEndpoints = {
   CHECKOUT_CART: `${BASE_URL}/enrollments/enroll`,
+  CHECKOUT_COURSE: `${BASE_URL}/enrollments/enroll/:courseId`,
   GET_MY_ENROLLED_COURSES: `${BASE_URL}/enrollments/my-courses`,
   GET_ENROLLED_COURSE_DETAILS: `${BASE_URL}/enrollments/:courseId`,
 };

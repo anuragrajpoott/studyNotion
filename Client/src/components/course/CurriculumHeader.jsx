@@ -12,9 +12,15 @@ const CurriculumHeader = ({
 
       <div className="flex flex-wrap justify-between gap-2 text-sm text-richblack-300">
         <div className="flex gap-3">
-          <span>{sections} sections</span>
-          <span>{lectures} lectures</span>
-          <span>{duration} total length</span>
+          <span>
+            {sections} {sections === 1 ? "section" : "sections"}
+          </span>
+
+          <span>
+            {lectures} {lectures === 1 ? "lecture" : "lectures"}
+          </span>
+
+          <span>{duration || "0m"} total length</span>
         </div>
 
         <button

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import copy from "copy-to-clipboard";
 import { toast } from "react-hot-toast";
@@ -13,44 +13,48 @@ import { checkoutCart } from "../../services/operations/enrollmentOperations";
 import { ACCOUNT_TYPE } from "../../utils/constants";
 
 import React from "react";
+import { addToCart } from "../../services/operations/cartOperations";
 
 const CourseSidebar = ({ course }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+  const {courseId} = useParams();
   
 
-  const { user } = useSelector((state) => state.profile);
-  const { token } = useSelector((state) => state.auth);
-  const { paymentLoading } = useSelector((state) => state.course);
+  const { user } = useSelector((state) => state.auth);
+
+  const { enrollmentLoading } = useSelector((state) => state.enrollment);
 
   const [confirmationModal, setConfirmationModal] = useState(null);
 
   const isEnrolled = course?.studentsEnrolled?.includes(user?._id);
 
-  const handleBuy = () => {
-    if (!token) {
-      setConfirmationModal({
-        text1: "You are not logged in!",
-        text2: "Please login to purchase this course.",
-        btn1Text: "Login",
-        btn2Text: "Cancel",
-        btn1Handler: () => navigate("/login"),
-        btn2Handler: () => setConfirmationModal(null),
-      });
-      return;
-    }
+const handleBuy = () => {
+  if (!user) {
+    setConfirmationModal({
+      text1: "You are not logged in!",
+      text2: "Please login to purchase this course.",
+      btn1Text: "Login",
+      btn2Text: "Cancel",
+      btn1Handler: () => navigate("/login"),
+      btn2Handler: () => setConfirmationModal(null),
+    });
+    return;
+  }
 
-    if (user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
-      toast.error("Instructors cannot purchase courses.");
-      return;
-    }
+  if (user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+    toast.error("Instructors cannot purchase courses.");
+    return;
+  }
 
-    checkoutCart(token, [course._id], user, navigate, dispatch);
-  };
+  dispatch(checkoutCart(navigate, courseId));
+};
+
 
   const handleaddItem = () => {
-    if (!token) {
+    if (!user) {
       setConfirmationModal({
         text1: "You are not logged in!",
         text2: "Please login to add this course to cart.",
@@ -66,6 +70,8 @@ const CourseSidebar = ({ course }) => {
       toast.error("Instructors cannot buy courses.");
       return;
     }
+
+    // dispatch(addToCart(courseId))
 
     dispatch(addItem(course));
     toast.success("Added to cart");
@@ -88,7 +94,7 @@ const CourseSidebar = ({ course }) => {
 
         <CourseAction
           isEnrolled={isEnrolled}
-          loading={paymentLoading}
+          loading={enrollmentLoading}
           onBuy={handleBuy}
           onaddItem={handleaddItem}
           onContinue={() =>

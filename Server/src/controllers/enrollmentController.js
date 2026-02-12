@@ -81,6 +81,66 @@ exports.enrollCartCourses = async (req, res) => {
   }
 };
 
+exports.enrollCourse = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { courseId } = req.params;
+
+    if (!courseId) {
+      return res.status(400).json({
+        success: false,
+        message: "Course ID is required",
+      });
+    }
+
+    // Check if course exists and is published
+    const course = await Course.findOne({
+      _id: courseId,
+      status: "Published",
+    });
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found or not published",
+      });
+    }
+
+    // Check if already enrolled
+    const alreadyEnrolled = await Enrollment.findOne({
+      user: userId,
+      course: courseId,
+    });
+
+    if (alreadyEnrolled) {
+      return res.status(400).json({
+        success: false,
+        message: "Already enrolled in this course",
+      });
+    }
+
+    // Create enrollment
+    const enrollment = await Enrollment.create({
+      user: userId,
+      course: courseId,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Enrollment successful",
+      enrollment,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Enrollment failed",
+      error: error.message,
+    });
+  }
+};
+
+
 
 
 

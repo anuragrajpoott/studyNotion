@@ -10,22 +10,22 @@ const CourseHero = ({ course }) => {
   } = course;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <h1 className="text-4xl font-bold">{courseName}</h1>
       <p className="text-richblack-200">{courseDescription}</p>
 
       <div className="flex items-center gap-2">
-        <span>{studentsEnrolled?.length} students</span>
+        <span>{studentsEnrolled?.length || 0} students enrolled</span>
       </div>
 
       <p>
-        Created by {instructor.firstName} {instructor.lastName}
+        Created by {instructor?.firstName} {instructor?.lastName}
       </p>
       <p className="text-sm text-richblack-300">
         Created at {new Date(createdAt).toLocaleDateString("en-US", {
           month: "long",
           year: "numeric",
-        })}
+        })} 
       </p>
     </div>
   );

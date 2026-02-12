@@ -5,7 +5,7 @@ import React from "react";
 export default function CategoryCoursesSection({ courses }) {
   const [activeTab, setActiveTab] = useState(1);
 
-  console.log("Courses in CategoryCoursesSection:", courses);
+  
 
   return (
     <section className="mx-auto max-w-maxContent px-4 py-12">

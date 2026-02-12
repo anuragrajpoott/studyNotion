@@ -9,12 +9,9 @@ import CourseCard from "../category/CourseCard";
 
 import React from "react";
 
-export default function CourseSlider({ Courses}) {
+export default function CourseSlider({ Courses }) {
 
-  console.log("Courses in CourseSlider:", Courses);
-
-
-  if (Courses.length === 0  ) {
+  if (!Courses || Courses.length === 0) {
     return (
       <p className="text-xl text-richblack-5">
         No courses found
@@ -22,13 +19,14 @@ export default function CourseSlider({ Courses}) {
     );
   }
 
-  
+  const canLoop = Courses.length > 3; 
+  // Must be > max slidesPerView (which is 3)
 
   return (
     <Swiper
       slidesPerView={1}
       spaceBetween={25}
-      loop
+      loop={canLoop}
       modules={[FreeMode, Pagination]}
       breakpoints={{
         1024: { slidesPerView: 3 },

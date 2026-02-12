@@ -8,6 +8,7 @@ import {
   setCourseError,
 } from "../../store/slices/courseSlice";
 import mockCategoryPageData from "../../assets/data/mockCategoryPageData";
+import { setSections } from "../../store/slices/sectionSlice";
 
 
 /* =========================================================
@@ -27,7 +28,10 @@ export const getCourseDetails = (courseId) => async (dispatch) => {
       throw new Error(res?.data?.message || "Failed to fetch course");
     }
 
-    dispatch(setCourseDetails(res.data.data));
+    
+
+    dispatch(setCourseDetails(res.data.data.course));
+    dispatch(setSections(res.data.data.sections));
 
   } catch (err) {
     dispatch(setCourseError(err.message));

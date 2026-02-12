@@ -6,6 +6,7 @@ import {
   setUser,
   setAuthError,
   setVerifyEmail,
+  setToken,
 } from "../../store/slices/authSlice";
 import { setIsAuthenticated } from "../../store/slices/authSlice";
 
@@ -57,6 +58,7 @@ export const signup = ({firstName, lastName, email, password, confirmPassword, o
     navigate("/dashboard");
     dispatch(setIsAuthenticated(true));
     dispatch(setUser(res.data.user));
+    dispatch(setToken(res.data.token))
   } catch (err) {
     toast.error(err.message || "Signup failed");
     dispatch(setAuthError(err.message));
@@ -83,6 +85,7 @@ export const login = (payload, navigate) => async (dispatch) => {
 
     dispatch(setUser(res.data.user));
     dispatch(setIsAuthenticated(true));
+    dispatch(setToken(res.data.token))
     toast.success("Login successful");
     navigate("/dashboard");
   } catch (err) {

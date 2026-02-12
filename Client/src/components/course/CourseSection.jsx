@@ -2,9 +2,13 @@ import { AiOutlineDown } from "react-icons/ai";
 import CourseLecture from "./CourseLecture";
 import React from "react";
 
+
 const CourseSection = ({ section, isOpen, onToggle }) => {
+  const lectures = section?.subSections || [];
+
   return (
     <div className="overflow-hidden rounded-lg border border-richblack-600 bg-richblack-700">
+      
       {/* Header */}
       <button
         onClick={onToggle}
@@ -20,14 +24,14 @@ const CourseSection = ({ section, isOpen, onToggle }) => {
         </div>
 
         <span className="text-sm text-yellow-25">
-          {section.subSection.length} lecture(s)
+          {lectures.length} lecture(s)
         </span>
       </button>
 
       {/* Content */}
       {isOpen && (
         <div className="flex flex-col gap-2 border-t border-richblack-600 bg-richblack-900 px-6 py-4">
-          {section.subSection.map((lecture) => (
+          {lectures.map((lecture) => (
             <CourseLecture key={lecture._id} lecture={lecture} />
           ))}
         </div>

@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
-import CurriculumHeader from "./CourseSidebar";
+import CurriculumHeader from "./CurriculumHeader";
 import CourseSection from "./CourseSection";
 import React from "react";
+import formatDuration from "../../utils/formatDuration";
+import { CourseInstructions } from "./CourseInstructions";
 
 
-const CourseCurriculum = ({ course }) => {
-  const { courseContent, totalDuration } = course;
-
+const CourseCurriculum = ({ sections , instructions}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [totalLectures, setTotalLectures] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
 
   useEffect(() => {
     let lectures = 0;
-    courseContent?.forEach((section) => {
-      lectures += section.subSection?.length || 0;
+    let duration = 0;
+
+    sections?.forEach((section) => {
+      lectures += section.subSections?.length || 0;
+
+      section.subSections?.forEach((sub) => {
+        duration += sub.timeDuration || 0;
+      });
     });
+
     setTotalLectures(lectures);
-  }, [courseContent]);
+    setTotalDuration(duration);
+  }, [sections]);
 
   const toggleSection = (sectionId) => {
     setActiveSections((prev) =>
@@ -26,17 +35,26 @@ const CourseCurriculum = ({ course }) => {
     );
   };
 
+  if (!sections || sections.length === 0) {
+    return <p>No curriculum available</p>;
+  }
+
+
   return (
     <div className="flex flex-col gap-6">
+
+      <CourseInstructions instructions={instructions} />
+
+      
       <CurriculumHeader
-        sections={courseContent?.length}
+        sections={sections.length}
         lectures={totalLectures}
-        duration={totalDuration}
+        duration={formatDuration(totalDuration)}
         onCollapseAll={() => setActiveSections([])}
       />
 
       <div className="flex flex-col gap-2">
-        {courseContent?.map((section) => (
+        {sections.map((section) => (
           <CourseSection
             key={section._id}
             section={section}

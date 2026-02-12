@@ -33,6 +33,29 @@ export const checkoutCart =
     }
   };
 
+
+  export const checkoutCourse =
+  (courseId, navigate) => async (dispatch) => {
+    dispatch(setEnrollmentLoading(true));
+    try {
+      const res = await apiConnector({
+        method: "POST",
+        url: enrollmentEndpoints.CHECKOUT_COURSE,
+        data: { courseId },
+      });
+
+      if (!res.data.success) throw new Error(res.data.message);
+
+      toast.success("Enrolled successfully");
+      navigate("/dashboard/enrolled-courses");
+    } catch (err) {
+      dispatch(setEnrollmentError(err.message));
+      toast.error("Enrollment failed");
+    } finally {
+      dispatch(setEnrollmentLoading(false));
+    }
+  };
+
 /* =========================================================
    GET MY ENROLLED COURSES (STUDENT DASHBOARD)
 ========================================================= */

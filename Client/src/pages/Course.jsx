@@ -33,6 +33,8 @@ const Course = () => {
     (state) => state.course
   );
 
+  const {sections} = useSelector((state) => state.section);
+
   
   if (loading){
     return (
@@ -41,13 +43,10 @@ const Course = () => {
       </div>
     );
   };
-  if (error || !courseDetails) {
-    dispatch(
-        setCourseDetails(
-          mockCategoryPageData.selectedCategoryCourses[0]
-        )
-      );
-  };
+  if (error || !courseDetails) return <Error />;
+
+  console.log("Course Details:", courseDetails);
+  console.log("Sections:", sections);
 
 
   return (
@@ -56,7 +55,7 @@ const Course = () => {
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 lg:col-span-8 flex flex-col gap-8">
           <CourseHero course={courseDetails} />
-          <CourseCurriculum course={courseDetails} />
+          <CourseCurriculum sections={sections} instructions={courseDetails?.instructions} />
           <CourseAuthor instructor={courseDetails?.instructor} />
         </div>
 
