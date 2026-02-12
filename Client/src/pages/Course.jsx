@@ -45,8 +45,6 @@ const Course = () => {
   };
   if (error || !courseDetails) return <Error />;
 
-  console.log("Course Details:", courseDetails);
-  console.log("Sections:", sections);
 
 
   return (

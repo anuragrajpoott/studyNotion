@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast";
-import { apiConnector } from "../apiConnector";
-import { cartEndpoints } from "../endpoints";
+import { apiConnector } from "../../utils/apiConnector";
+import { cartEndpoints } from "../apis";
 import {
   setCartLoading,
   setCart,

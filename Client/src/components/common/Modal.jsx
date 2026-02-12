@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Button from "./Button";
+import React from "react";
 
 export default function Modal({ modalData }) {
   if (!modalData) return null;
